@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurante El Gallego</title>
+<meta name="description" content="Borrador de la web de Restaurante El Gallego, cocina gallega en San Lorenzo de El Escorial — para revisar y comentar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f6efe2;
+    --cream-2:#efe4d0;
+    --ink:#241c19;
+    --wine:#7a2530;
+    --wine-dark:#551b23;
+    --gold:#c79a4b;
+    --green:#3f5a3c;
+    --sea:#2c5257;
+    --white:#fffaf3;
+    --radius:18px;
+    --shadow:0 18px 40px rgba(36,28,25,.18);
+    --font-display:'Fraunces', serif;
+    --font-body:'Nunito Sans', sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--cream);
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3{font-family:var(--font-display);margin:0 0 .4em;line-height:1.05;text-wrap:balance;}
+  p{line-height:1.65;}
+  ul{list-style:none;margin:0;padding:0;}
+  .icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;display:block;}
+
+  .eyebrow{
+    font-family:var(--font-body);font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--wine);font-size:.8rem;margin:0 0 .6em;
+  }
+  .eyebrow--light{color:var(--gold);}
+
+  .btn{
+    display:inline-block;padding:.9em 1.7em;border-radius:999px;font-weight:800;font-size:.95rem;
+    letter-spacing:.02em;transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    border:2px solid transparent;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn--primary{background:var(--wine);color:var(--white);box-shadow:0 10px 24px rgba(122,37,48,.35);}
+  .btn--primary:hover{background:var(--wine-dark);}
+  .btn--ghost{border-color:var(--white);color:var(--white);}
+  .btn--ghost:hover{background:rgba(255,255,255,.12);}
+  .btn--nav{padding:.7em 1.4em;font-size:.85rem;}
+
+  /* Topbar */
+  .topbar{background:var(--ink);color:var(--cream-2);font-size:.82rem;}
+  .topbar__inner{max-width:1200px;margin:0 auto;padding:.5em 5%;display:flex;justify-content:space-between;gap:1em;flex-wrap:wrap;}
+  .topbar a{font-weight:700;color:var(--gold);}
+
+  /* Header */
+  .site-header{position:sticky;top:0;z-index:50;background:rgba(246,239,226,.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(36,28,25,.08);}
+  .site-header__inner{max-width:1200px;margin:0 auto;padding:.8em 5%;display:flex;align-items:center;gap:1.5em;}
+  .logo{display:flex;align-items:center;gap:.7em;margin-right:auto;}
+  .logo__mark{
+    width:46px;height:46px;border-radius:50%;background:var(--wine);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .logo__mark .icon{width:24px;height:24px;stroke-width:2.4;}
+  .logo__text{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:.02em;line-height:1.15;}
+  .logo__text small{display:block;font-family:var(--font-body);font-weight:700;font-size:.55rem;letter-spacing:.1em;color:var(--wine);text-transform:uppercase;}
+  .nav{display:flex;gap:1.6em;}
+  .nav a{font-weight:700;font-size:.92rem;position:relative;}
+  .nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--wine);transition:width .2s ease;}
+  .nav a:hover::after{width:100%;}
+  .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;border:none;background:none;cursor:pointer;}
+  .nav-toggle span{height:2px;background:var(--ink);border-radius:2px;}
+
+  /* Hero */
+  .hero{position:relative;min-height:88vh;display:flex;align-items:center;padding:6em 5% 4em;color:var(--white);overflow:hidden;
+    background:radial-gradient(120% 140% at 82% 8%, var(--wine-dark) 0%, var(--ink) 62%);}
+  .hero__watermark{position:absolute;right:-6%;top:50%;transform:translateY(-50%);width:56vw;max-width:760px;opacity:.14;color:var(--gold);}
+  .hero__content{position:relative;max-width:640px;}
+  .hero .eyebrow{color:var(--gold);}
+  .hero h1{font-size:clamp(3.1rem,8vw,5.8rem);font-weight:900;letter-spacing:.01em;}
+  .hero__lede{font-size:1.15rem;max-width:480px;color:#f3e9dc;margin-bottom:1.6em;}
+  .hero__cta{display:flex;gap:1em;flex-wrap:wrap;}
+  .hero__badge{
+    position:absolute;right:6%;bottom:9%;width:190px;background:var(--white);border-radius:var(--radius);
+    box-shadow:var(--shadow);color:var(--ink);padding:1.3em 1em;text-align:center;
+  }
+  .hero__badge .icon{width:26px;height:26px;color:var(--wine);margin:0 auto .3em;}
+  .hero__badge strong{display:block;font-family:var(--font-display);font-size:1.7rem;color:var(--wine);}
+  .stars{display:block;color:var(--gold);letter-spacing:.1em;margin:.15em 0;}
+  .hero__badge small{font-size:.72rem;color:#786c62;}
+
+  /* Intro */
+  .intro{max-width:1200px;margin:0 auto;padding:6em 5%;display:grid;grid-template-columns:1fr 1fr;gap:4em;align-items:center;}
+  .intro__text h2 em{color:var(--wine);font-style:normal;}
+  .intro__panel{
+    position:relative;background:linear-gradient(155deg, var(--cream-2), #e4d5b8);
+    border-radius:24px;padding:2.4em 2em;overflow:hidden;box-shadow:var(--shadow);
+  }
+  .intro__panel .hero__watermark{right:-18%;top:-10%;width:80%;opacity:.16;transform:none;}
+  .intro__fact{position:relative;display:flex;gap:1em;align-items:flex-start;padding:1em 0;}
+  .intro__fact + .intro__fact{border-top:1px solid rgba(36,28,25,.12);}
+  .intro__fact .icon-wrap{
+    width:44px;height:44px;border-radius:12px;background:var(--wine);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .intro__fact .icon-wrap .icon{width:22px;height:22px;}
+  .intro__fact strong{display:block;font-family:var(--font-display);font-size:1.05rem;color:var(--wine-dark);}
+  .intro__fact span{font-size:.9rem;color:#5c5049;}
+
+  /* Section head */
+  .section-head{max-width:640px;margin:0 auto 2.5em;padding:0 5%;text-align:center;}
+  .section-sub{color:#6b5f56;}
+
+  /* Menu */
+  .menu-section{padding:6em 0 4em;}
+  .menu-tabs{display:flex;gap:.6em;justify-content:center;flex-wrap:wrap;padding:0 5%;margin-bottom:2.5em;}
+  .menu-tab{
+    font-family:var(--font-body);font-weight:800;font-size:.85rem;padding:.7em 1.3em;border-radius:999px;
+    border:2px solid var(--wine);background:transparent;color:var(--wine);cursor:pointer;transition:all .2s ease;
+  }
+  .menu-tab.is-active,.menu-tab:hover{background:var(--wine);color:var(--white);}
+  .menu-track{padding:0 5%;max-width:1200px;margin:0 auto;}
+  .dish-row{display:flex;gap:1.5em;overflow-x:auto;padding-bottom:1em;scroll-snap-type:x proximity;}
+  .dish-row[hidden]{display:none;}
+  .dish-row::-webkit-scrollbar{height:8px;}
+  .dish-row::-webkit-scrollbar-thumb{background:var(--cream-2);border-radius:8px;}
+  .dish-card{flex:0 0 230px;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;scroll-snap-align:start;position:relative;}
+  .dish-card__img{height:130px;display:flex;align-items:center;justify-content:center;color:var(--cream);}
+  .dish-card__img .icon{width:38px;height:38px;stroke-width:1.8;}
+  .tone-picar{background:linear-gradient(135deg, var(--gold), var(--wine));}
+  .tone-mar{background:linear-gradient(135deg, var(--sea), var(--ink));}
+  .tone-tierra{background:linear-gradient(135deg, var(--wine), var(--ink));}
+  .tone-cuchara{background:linear-gradient(135deg, var(--wine-dark), var(--gold));}
+  .tone-postres{background:linear-gradient(135deg, var(--gold), #e7cf9e); color:var(--wine-dark);}
+  .tone-bebidas{background:linear-gradient(135deg, var(--green), var(--ink));}
+  .dish-card h3{font-size:1.02rem;margin:.7em 1em .2em;}
+  .dish-card p{font-size:.83rem;color:#786c62;margin:0 1em .8em;}
+  .dish-card .price{display:block;margin:0 1em 1em;font-weight:800;color:var(--wine);font-variant-numeric:tabular-nums;}
+  .dish-card--star{border:2px solid var(--gold);}
+  .dish-card__tag{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--ink);font-size:.66rem;font-weight:800;padding:.3em .7em;border-radius:999px;z-index:2;}
+  .menu-note{text-align:center;color:#8a7d72;font-size:.8rem;margin-top:1.5em;padding:0 5%;}
+
+  /* Callout */
+  .callout{display:grid;grid-template-columns:1fr 1fr;min-height:64vh;}
+  .callout__visual{background:linear-gradient(155deg, var(--wine-dark), var(--ink));display:flex;align-items:center;justify-content:center;position:relative;}
+  .callout__visual .icon{width:34%;max-width:180px;color:var(--gold);opacity:.9;}
+  .callout__text{background:var(--ink);color:var(--cream);display:flex;flex-direction:column;justify-content:center;padding:5em 8%;}
+  .callout__text h2{color:var(--white);font-size:clamp(2rem,3.5vw,2.7rem);}
+  .callout__text p{color:#d9cdc0;margin-bottom:1.6em;}
+
+  /* Call CTA */
+  .call-cta{background:var(--wine);color:var(--white);padding:4.5em 5%;}
+  .call-cta__inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:2em;flex-wrap:wrap;}
+  .call-cta h2{color:var(--white);font-size:clamp(1.7rem,3vw,2.2rem);}
+  .call-cta__numbers{display:flex;gap:1.2em;flex-wrap:wrap;}
+  .call-cta__number{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:var(--radius);padding:1em 1.6em;text-align:center;min-width:170px;transition:background .2s ease;}
+  .call-cta__number:hover{background:rgba(255,255,255,.22);}
+  .call-cta__number span{display:block;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.3em;}
+  .call-cta__number strong{font-family:var(--font-display);font-size:1.35rem;font-variant-numeric:tabular-nums;}
+
+  /* Reviews */
+  .reviews{padding:6em 5%;}
+  .reviews__grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1.6em;}
+  .review-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8em;margin:0;}
+  .review-card p{font-family:var(--font-display);font-size:1.05rem;color:var(--ink);}
+  .review-card cite{display:block;margin-top:1em;font-style:normal;font-weight:700;color:var(--wine);font-size:.85rem;}
+  .reviews__flag{max-width:1100px;margin:1.5em auto 0;text-align:center;font-size:.78rem;color:#a89a8d;}
+
+  /* Values strip */
+  .values{max-width:1200px;margin:0 auto;padding:1em 5% 6em;display:grid;grid-template-columns:repeat(4,1fr);gap:1.8em;}
+  .value{text-align:center;}
+  .value .icon-wrap{width:56px;height:56px;border-radius:50%;background:var(--cream-2);color:var(--wine);display:flex;align-items:center;justify-content:center;margin:0 auto .8em;}
+  .value .icon-wrap .icon{width:26px;height:26px;}
+  .value h3{font-size:1rem;margin-bottom:.3em;}
+  .value p{font-size:.85rem;color:#6b5f56;margin:0;}
+
+  /* Location */
+  .location{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+  .location__info{padding:5.5em 8%;display:flex;flex-direction:column;justify-content:center;}
+  .location__list{margin:1.6em 0 2em;display:grid;gap:1.1em;}
+  .location__list strong{display:block;font-family:var(--font-display);color:var(--wine);font-size:1rem;}
+  .location__visual{background:linear-gradient(160deg, var(--cream-2), var(--gold) 140%);position:relative;display:flex;align-items:center;justify-content:center;min-height:420px;}
+  .location__visual .icon{width:30%;max-width:150px;color:var(--wine);opacity:.55;}
+  .location__pin{position:relative;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.6em 1.8em;text-align:center;max-width:260px;}
+  .location__pin .icon{width:28px;height:28px;color:var(--wine);opacity:1;margin:0 auto .5em;}
+  .location__pin strong{display:block;font-family:var(--font-display);font-size:1.05rem;margin-bottom:.3em;}
+  .location__pin span{font-size:.85rem;color:#6b5f56;display:block;margin-bottom:1em;}
+
+  /* Footer */
+  .site-footer{background:var(--ink);color:#cfc3b7;padding:4em 5% 2.5em;}
+  .site-footer__inner{max-width:900px;margin:0 auto;text-align:center;}
+  .logo--footer{justify-content:center;margin-bottom:1.2em;}
+  .site-footer a{color:var(--gold);font-weight:700;}
+  .site-footer p{margin:.3em 0;}
+  .site-footer__copy{margin-top:1.5em;font-size:.78rem;color:#8a7d72;}
+
+  /* Responsive */
+  @media (max-width: 900px){
+    .nav{position:fixed;top:70px;left:0;right:0;background:var(--cream);flex-direction:column;padding:1.5em 8%;gap:1.2em;
+      transform:translateY(-130%);transition:transform .25s ease;box-shadow:var(--shadow);}
+    .nav.is-open{transform:translateY(0);}
+    .nav-toggle{display:flex;}
+    .btn--nav{display:none;}
+    .intro{grid-template-columns:1fr;}
+    .callout{grid-template-columns:1fr;}
+    .callout__visual{min-height:220px;}
+    .reviews__grid{grid-template-columns:1fr;}
+    .values{grid-template-columns:repeat(2,1fr);}
+    .location{grid-template-columns:1fr;}
+    .location__visual{min-height:280px;}
+    .hero__badge{display:none;}
+  }
+  @media (max-width: 560px){
+    .hero{min-height:96vh;padding-top:5em;}
+    .topbar__inner{font-size:.72rem;}
+    .values{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="icon-shell" viewBox="0 0 64 64">
+      <path d="M32 8C20 8 9 22 9 36c0 6 2 11 5 15h36c3-4 5-9 5-15C55 22 44 8 32 8Z"/>
+      <path d="M32 8V51M32 8 20 50M32 8 44 50M32 8 12 42M32 8 52 42"/>
+      <path d="M14 51h36"/>
+    </symbol>
+    <symbol id="icon-octopus" viewBox="0 0 64 64">
+      <circle cx="32" cy="23" r="13"/>
+      <path d="M20 31c-4 6-8 8-8 14 0 4 3 6 6 4M24 35c-2 8-6 10-5 16 0 4 3 5 6 3M30 37c0 9-2 12 0 18 1 3 4 4 6 2M36 37c2 9 5 11 4 18-1 3-4 4-6 2M42 35c4 7 8 8 8 14 0 4-3 6-6 4"/>
+    </symbol>
+    <symbol id="icon-pot" viewBox="0 0 64 64">
+      <path d="M14 28h36l-3 20a6 6 0 0 1-6 5H23a6 6 0 0 1-6-5l-3-20Z"/>
+      <path d="M9 28h46"/>
+      <path d="M24 28v-4a8 8 0 0 1 16 0v4"/>
+      <path d="M22 12c1-3 4-3 5 0M31 10c1-3 4-3 5 0M40 12c1-3 4-3 5 0"/>
+    </symbol>
+    <symbol id="icon-wine" viewBox="0 0 64 64">
+      <path d="M20 10h24l-2 16a10 10 0 0 1-20 0Z"/>
+      <path d="M32 34v16M22 54h20"/>
+    </symbol>
+    <symbol id="icon-cake" viewBox="0 0 64 64">
+      <path d="M32 9 55 51H9Z"/>
+      <path d="M20 51l4-15M32 51V32M44 51l-4-15"/>
+    </symbol>
+    <symbol id="icon-flame" viewBox="0 0 64 64">
+      <path d="M32 7c6 11-4 13-4 21 0 4 3 6 6 6 4 0 7-3 7-7 4 4 6 9 6 14 0 10-8 17-15 17s-15-7-15-17c0-15 10-19 15-34Z"/>
+    </symbol>
+    <symbol id="icon-skewer" viewBox="0 0 64 64">
+      <path d="M10 46 46 10"/>
+      <circle cx="20" cy="36" r="6"/>
+      <circle cx="32" cy="24" r="6"/>
+      <circle cx="44" cy="12" r="4"/>
+    </symbol>
+    <symbol id="icon-leaf" viewBox="0 0 64 64">
+      <path d="M14 50C14 26 34 12 54 10c2 20-12 40-36 40Z"/>
+      <path d="M16 48C28 38 38 28 50 14"/>
+    </symbol>
+    <symbol id="icon-heart" viewBox="0 0 64 64">
+      <path d="M32 54S10 40 10 24c0-8 6-14 13-14 4 0 8 2 9 6 1-4 5-6 9-6 7 0 13 6 13 14 0 16-22 30-22 30Z"/>
+    </symbol>
+    <symbol id="icon-pin" viewBox="0 0 64 64">
+      <path d="M32 6c11 0 20 9 20 20 0 15-20 32-20 32S12 41 12 26C12 15 21 6 32 6Z"/>
+      <circle cx="32" cy="25" r="7"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="topbar">
+  <div class="topbar__inner">
+    <span>Ctra. de Guadarrama, 39 · San Lorenzo de El Escorial</span>
+    <a href="tel:+34642508946">642 50 89 46</a>
+  </div>
+</div>
+
+<header class="site-header" id="header">
+  <div class="site-header__inner">
+    <a href="#inicio" class="logo">
+      <span class="logo__mark"><svg class="icon"><use href="#icon-shell"/></svg></span>
+      <span class="logo__text">EL GALLEGO<small>Restaurante · San Lorenzo de El Escorial</small></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#carta">Carta</a>
+      <a href="#cocido">Cocido Madrileño</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#opiniones">Opiniones</a>
+      <a href="#localizacion">Cómo llegar</a>
+    </nav>
+    <a href="tel:+34642508946" class="btn btn--primary btn--nav">Reservar mesa</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" id="inicio">
+    <svg class="icon hero__watermark" viewBox="0 0 64 64"><use href="#icon-shell"/></svg>
+    <div class="hero__content">
+      <p class="eyebrow">Cocina gallega · desde siempre</p>
+      <h1>SABOR<br>DE<br>GALICIA</h1>
+      <p class="hero__lede">Producto fresco, recetas de toda la vida y la calidez de una casa gallega en pleno San Lorenzo de El Escorial.</p>
+      <div class="hero__cta">
+        <a href="#carta" class="btn btn--primary">Ver la carta</a>
+        <a href="tel:+34642508946" class="btn btn--ghost">Llamar y reservar</a>
+      </div>
+    </div>
+    <div class="hero__badge">
+      <svg class="icon"><use href="#icon-shell"/></svg>
+      <strong>4.7</strong>
+      <span class="stars">★★★★★</span>
+      <small>87 opiniones en Google</small>
+    </div>
+  </section>
+
+  <section class="intro" id="nosotros">
+    <div class="intro__text">
+      <p class="eyebrow">Nuestra casa</p>
+      <h2>Producto de siempre<br>y <em>maestría</em> gallega</h2>
+      <p>En El Gallego cocinamos como en casa: pulpo á feira, lacón con grelos, chorizo al Ribeiro, pote gallego y un cocido madrileño que se ha ganado un hueco entre los mejores platos de la zona. Desayunos desde primera hora, menú del día casero y una carta pensada para compartir en buena compañía.</p>
+    </div>
+    <div class="intro__panel">
+      <svg class="icon hero__watermark" viewBox="0 0 64 64"><use href="#icon-shell"/></svg>
+      <div class="intro__fact">
+        <span class="icon-wrap"><svg class="icon"><use href="#icon-pin"/></svg></span>
+        <div><strong>Desde las 7:00</strong><span>Desayunos, almuerzos y cenas</span></div>
+      </div>
+      <div class="intro__fact">
+        <span class="icon-wrap"><svg class="icon"><use href="#icon-pot"/></svg></span>
+        <div><strong>Menú del día</strong><span>Cada mediodía, entre semana y fin de semana</span></div>
+      </div>
+      <div class="intro__fact">
+        <span class="icon-wrap"><svg class="icon"><use href="#icon-heart"/></svg></span>
+        <div><strong>Terraza y salón</strong><span>Para grupos, familias y celebraciones</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" id="carta">
+    <div class="section-head">
+      <p class="eyebrow">Nuestra carta</p>
+      <h2>Algo para cada apetito</h2>
+      <p class="section-sub">Desliza para descubrir nuestras especialidades. Platos y precios de ejemplo — pendiente de sustituir por la carta real.</p>
+    </div>
+
+    <div class="menu-tabs" id="menuTabs">
+      <button class="menu-tab is-active" data-target="picar">Para picar</button>
+      <button class="menu-tab" data-target="mar">Del mar</button>
+      <button class="menu-tab" data-target="tierra">De la tierra</button>
+      <button class="menu-tab" data-target="cuchara">De cuchara</button>
+      <button class="menu-tab" data-target="postres">Postres</button>
+      <button class="menu-tab" data-target="bebidas">Bebidas</button>
+    </div>
+
+    <div class="menu-track" id="menuTrack">
+      <div class="dish-row" data-panel="picar">
+        <article class="dish-card"><div class="dish-card__img tone-picar"><svg class="icon"><use href="#icon-skewer"/></svg></div><h3>Croquetas caseras</h3><p>Jamón ibérico, receta de la casa</p><span class="price">8,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-picar"><svg class="icon"><use href="#icon-leaf"/></svg></div><h3>Pimientos de Padrón</h3><p>Fritos en aceite de oliva, sal en escamas</p><span class="price">7,00 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-picar"><svg class="icon"><use href="#icon-flame"/></svg></div><h3>Chorizo al Ribeiro</h3><p>Flambeado en sala</p><span class="price">9,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-picar"><svg class="icon"><use href="#icon-skewer"/></svg></div><h3>Empanada gallega</h3><p>Atún, bonito o carne</p><span class="price">6,50 €</span></article>
+      </div>
+      <div class="dish-row" data-panel="mar" hidden>
+        <article class="dish-card"><div class="dish-card__img tone-mar"><svg class="icon"><use href="#icon-octopus"/></svg></div><h3>Pulpo á feira</h3><p>Pimentón de la Vera, patata cocida</p><span class="price">18,00 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-mar"><svg class="icon"><use href="#icon-shell"/></svg></div><h3>Zamburiñas a la plancha</h3><p>Ajo y perejil</p><span class="price">14,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-mar"><svg class="icon"><use href="#icon-shell"/></svg></div><h3>Merluza a la gallega</h3><p>Con patata y pimentón</p><span class="price">16,00 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-mar"><svg class="icon"><use href="#icon-octopus"/></svg></div><h3>Calamares fritos</h3><p>Con alioli casero</p><span class="price">13,00 €</span></article>
+      </div>
+      <div class="dish-row" data-panel="tierra" hidden>
+        <article class="dish-card"><div class="dish-card__img tone-tierra"><svg class="icon"><use href="#icon-flame"/></svg></div><h3>Codillo a la gallega</h3><p>Con grelos y patata</p><span class="price">15,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-tierra"><svg class="icon"><use href="#icon-flame"/></svg></div><h3>Entrecot a la piedra</h3><p>Ternera gallega, se cocina en tu mesa</p><span class="price">19,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-tierra"><svg class="icon"><use href="#icon-flame"/></svg></div><h3>Secreto ibérico</h3><p>A la plancha, pimientos asados</p><span class="price">14,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-tierra"><svg class="icon"><use href="#icon-pot"/></svg></div><h3>Judiones con matanza</h3><p>Guiso de la abuela</p><span class="price">13,00 €</span></article>
+      </div>
+      <div class="dish-row" data-panel="cuchara" hidden>
+        <article class="dish-card dish-card--star"><div class="dish-card__img tone-cuchara"><svg class="icon"><use href="#icon-pot"/></svg></div><span class="dish-card__tag">Solo lunes, miércoles y viernes</span><h3>Cocido madrileño</h3><p>Más de 10 vuelcos, receta tradicional</p><span class="price">16,00 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-cuchara"><svg class="icon"><use href="#icon-pot"/></svg></div><h3>Pote gallego</h3><p>Grelos, patata, chorizo y lacón</p><span class="price">12,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-cuchara"><svg class="icon"><use href="#icon-pot"/></svg></div><h3>Lentejas caseras</h3><p>Con chorizo y morcilla</p><span class="price">10,50 €</span></article>
+      </div>
+      <div class="dish-row" data-panel="postres" hidden>
+        <article class="dish-card"><div class="dish-card__img tone-postres"><svg class="icon"><use href="#icon-cake"/></svg></div><h3>Tarta de Santiago</h3><p>Receta tradicional con almendra</p><span class="price">5,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-postres"><svg class="icon"><use href="#icon-cake"/></svg></div><h3>Filloas caseras</h3><p>Con crema o chocolate</p><span class="price">5,00 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-postres"><svg class="icon"><use href="#icon-cake"/></svg></div><h3>Flan casero</h3><p>Con un toque de caramelo</p><span class="price">4,50 €</span></article>
+      </div>
+      <div class="dish-row" data-panel="bebidas" hidden>
+        <article class="dish-card"><div class="dish-card__img tone-bebidas"><svg class="icon"><use href="#icon-wine"/></svg></div><h3>Ribeiro D.O.</h3><p>Copa o botella</p><span class="price">Desde 3,50 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-bebidas"><svg class="icon"><use href="#icon-wine"/></svg></div><h3>Cerveza de grifo</h3><p>Caña o tercio</p><span class="price">2,20 €</span></article>
+        <article class="dish-card"><div class="dish-card__img tone-bebidas"><svg class="icon"><use href="#icon-wine"/></svg></div><h3>Café de sobremesa</h3><p>Solo, cortado o con leche</p><span class="price">1,50 €</span></article>
+      </div>
+    </div>
+    <p class="menu-note">* Carta y precios orientativos, sujetos a temporada y disponibilidad de producto.</p>
+  </section>
+
+  <section class="callout" id="cocido">
+    <div class="callout__visual"><svg class="icon"><use href="#icon-pot"/></svg></div>
+    <div class="callout__text">
+      <p class="eyebrow eyebrow--light">Plato estrella</p>
+      <h2>El cocido madrileño de El Gallego</h2>
+      <p>Con más de diez vuelcos y elaborado como manda la tradición, nuestro cocido se ha convertido en parada obligada para quienes visitan San Lorenzo de El Escorial. Disponible los <strong>lunes, miércoles y viernes</strong>.</p>
+      <a href="tel:+34642508946" class="btn btn--primary">Llamar para más información</a>
+    </div>
+  </section>
+
+  <section class="call-cta">
+    <div class="call-cta__inner">
+      <div>
+        <p class="eyebrow eyebrow--light">Mesas y pedidos</p>
+        <h2>Reserva por teléfono,<br>te atendemos encantados</h2>
+      </div>
+      <div class="call-cta__numbers">
+        <a href="tel:+34642508946" class="call-cta__number"><span>Restaurante</span><strong>642 50 89 46</strong></a>
+        <a href="tel:+34918909359" class="call-cta__number"><span>Bar</span><strong>918 90 93 59</strong></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews" id="opiniones">
+    <div class="section-head">
+      <p class="eyebrow">¿Qué dicen de nosotros?</p>
+      <h2>4.7 sobre 5 · 87 opiniones en Google</h2>
+    </div>
+    <div class="reviews__grid">
+      <blockquote class="review-card"><p>"Comida muy buena y personal amable. El cocido de los viernes es una parada obligada."</p><cite>— Reseña de ejemplo</cite></blockquote>
+      <blockquote class="review-card"><p>"Se nota que cuidan el producto. El pulpo á feira está entre los mejores de la zona."</p><cite>— Reseña de ejemplo</cite></blockquote>
+      <blockquote class="review-card"><p>"Ambiente familiar y trato cercano. Repetiremos seguro, sobre todo por el menú del día."</p><cite>— Reseña de ejemplo</cite></blockquote>
+    </div>
+    <p class="reviews__flag">* Citas de ejemplo para maquetar la sección — a sustituir por reseñas reales de Google.</p>
+  </section>
+
+  <section class="values">
+    <div class="value"><span class="icon-wrap"><svg class="icon"><use href="#icon-leaf"/></svg></span><h3>Producto fresco</h3><p>Mercado y proveedores de siempre</p></div>
+    <div class="value"><span class="icon-wrap"><svg class="icon"><use href="#icon-pot"/></svg></span><h3>Recetas de siempre</h3><p>Cocina tradicional gallega</p></div>
+    <div class="value"><span class="icon-wrap"><svg class="icon"><use href="#icon-heart"/></svg></span><h3>Trato familiar</h3><p>Cercanía en cada mesa</p></div>
+    <div class="value"><span class="icon-wrap"><svg class="icon"><use href="#icon-shell"/></svg></span><h3>Esencia gallega</h3><p>El sabor de la tierra y el mar</p></div>
+  </section>
+
+  <section class="location" id="localizacion">
+    <div class="location__info">
+      <p class="eyebrow">Cómo llegar</p>
+      <h2>Te esperamos en San Lorenzo de El Escorial</h2>
+      <ul class="location__list">
+        <li><strong>Dirección</strong>Ctra. de Guadarrama, 39 · 28200 San Lorenzo de El Escorial, Madrid</li>
+        <li><strong>Teléfono restaurante</strong><a href="tel:+34642508946">642 50 89 46</a></li>
+        <li><strong>Teléfono bar</strong><a href="tel:+34918909359">918 90 93 59</a></li>
+        <li><strong>Horario</strong>Todos los días, desde las 7:00 hasta el cierre</li>
+        <li><strong>Servicios</strong>Consumo en el local y para llevar</li>
+      </ul>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=Restaurante+El+Gallego+Carretera+de+Guadarrama+39+San+Lorenzo+de+El+Escorial" target="_blank" rel="noopener" class="btn btn--primary">Cómo llegar en Google Maps</a>
+    </div>
+    <div class="location__visual">
+      <svg class="icon" viewBox="0 0 64 64" style="position:absolute;opacity:.4"><use href="#icon-shell"/></svg>
+      <div class="location__pin">
+        <svg class="icon"><use href="#icon-pin"/></svg>
+        <strong>El Gallego</strong>
+        <span>Ctra. de Guadarrama, 39</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="logo logo--footer">
+      <span class="logo__mark"><svg class="icon"><use href="#icon-shell"/></svg></span>
+      <span class="logo__text">EL GALLEGO<small>Restaurante · San Lorenzo de El Escorial</small></span>
+    </div>
+    <p>Ctra. de Guadarrama, 39 · 28200 San Lorenzo de El Escorial, Madrid</p>
+    <p><a href="tel:+34642508946">642 50 89 46</a> · <a href="tel:+34918909359">918 90 93 59</a></p>
+    <p class="site-footer__copy">© 2026 Restaurante El Gallego · Borrador de trabajo para revisión interna.</p>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const nav = document.getElementById('nav');
+  navToggle.addEventListener('click', () => nav.classList.toggle('is-open'));
+  nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => nav.classList.remove('is-open')));
+
+  const tabs = document.querySelectorAll('.menu-tab');
+  const rows = document.querySelectorAll('.dish-row');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.target;
+      tabs.forEach(t => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      rows.forEach(row => { row.hidden = row.dataset.panel !== target; });
+    });
+  });
+
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.style.boxShadow = window.scrollY > 10 ? '0 4px 18px rgba(36,28,25,.14)' : 'none';
+  });
+</script>
+
+</body>
+</html>
